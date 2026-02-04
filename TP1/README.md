@@ -1,4 +1,4 @@
-# Título do Manifesto
+# TP1 - Geração de HTML apartir de JSON 
 
 ## Metainformação
 - Título: TP1  

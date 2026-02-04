@@ -62,22 +62,22 @@ for reparacao in dataset_reparacoes['reparacoes']:
     for intervencao in reparacao['intervencoes']:
         codigo = intervencao['codigo']
 
-    if codigo not in intervencoes_unicas:
-        intervencoes_unicas[codigo] = {
-            "codigo": codigo,
-            "nome": intervencao["nome"],
-            "descricao": intervencao["descricao"],
-            "reparacoes": []
-        }
+        if codigo not in intervencoes_unicas:
+            intervencoes_unicas[codigo] = {
+                "codigo": codigo,
+                "nome": intervencao["nome"],
+                "descricao": intervencao["descricao"],
+                "reparacoes": []
+            }
 
-    intervencoes_unicas[codigo]["reparacoes"].append({
-        "data": data,
-        "nif": nif,
-        "nome": nome,
-        "marca": marca,
-        "modelo": modelo,
-        "nr_intervencoes": nr_intervencoes
-    })
+        intervencoes_unicas[codigo]["reparacoes"].append({
+            "data": data,
+            "nif": nif,
+            "nome": nome,
+            "marca": marca,
+            "modelo": modelo,
+            "nr_intervencoes": nr_intervencoes
+        })
 
 ## -------- Reparaçoes --------------    
 
@@ -136,6 +136,7 @@ for intervencao in intervencoes_unicas.values():
                 </tr>
                 {linhas}
             </table>
+            <p><a href="tiposIntervencoes.html">Voltar</a></p>
         </body>
     </html>
     """
@@ -201,7 +202,7 @@ html = f"""
                 </tr>
                 {reparacoes}
             </table>
-            
+            <p><a href="index.html">Voltar</a></p>
         </body>
     </html>
 """
