@@ -11,7 +11,9 @@
 ## Autor
 - ID: A107286  
 - Nome: Francisco Miguel Dourado Barbosa    
-- Fotografia: ../francisco.jpg  
+- Fotografia:  
+  ![Francisco](../francisco.jpg)
+
 
 ---
 
