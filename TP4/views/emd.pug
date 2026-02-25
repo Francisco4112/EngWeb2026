@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  .w3-card-4
+    header.w3-container.w3-indigo
+      h2 Exame Médico Desportivo
+
+    .w3-container.w3-padding
+      p ID: #{emd.id}
+      p Index: #{emd.index}
+      p Data EMD: #{emd.dataEMD}
+      p Nome: #{emd.nome}
+      p Idade: #{emd.idade}
+      p Género: #{emd.género}
+      p Morada: #{emd.morada}
+      p Modalidade: #{emd.modalidade}
+      p Clube: #{emd.clube}
+      p Email: #{emd.email}
+      p Federado: #{emd.federado ? 'Sim' : 'Não'}
+      p Resultado: #{emd.resultado ? 'Apto' : 'Inapto'}
+
+      a.w3-button.w3-grey.w3-margin-top(href='/emd') Voltar
+      a.w3-button.w3-blue.w3-margin-top.w3-margin-left(href=`/emd/editar/${emd.id}`) Editar
+      a.w3-button.w3-red.w3-margin-top.w3-margin-left(href=`/emd/apagar/${emd.id}`) Apagar

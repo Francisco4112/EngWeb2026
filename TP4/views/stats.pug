@@ -1,0 +1,58 @@
+extends layout
+
+block content
+  .w3-card-4
+    header.w3-container.w3-purple
+      h2 Estatísticas EMD
+    .w3-container.w3-padding
+      a.w3-button.w3-grey(href='/emd') Voltar
+
+      h3 Distribuição por Sexo
+      table.w3-table-all.w3-margin-bottom
+        tr
+          th Sexo
+          th Total
+        each total, k in stats.sexo
+          tr
+            td= k
+            td= total
+
+      h3 Distribuição por Modalidade
+      table.w3-table-all.w3-margin-bottom
+        tr
+          th Modalidade
+          th Total
+        each total, k in stats.modalidade
+          tr
+            td= k
+            td= total
+
+      h3 Distribuição por Clube
+      table.w3-table-all.w3-margin-bottom
+        tr
+          th Clube
+          th Total
+        each total, k in stats.clube
+          tr
+            td= k
+            td= total
+
+      h3 Distribuição por Resultado
+      table.w3-table-all.w3-margin-bottom
+        tr
+          th Resultado
+          th Total
+        each total, k in stats.resultado
+          tr
+            td= k
+            td= total
+
+      h3 Distribuição por Federado
+      table.w3-table-all.w3-margin-bottom
+        tr
+          th Federado
+          th Total
+        each total, k in stats.federado
+          tr
+            td= k
+            td= total
