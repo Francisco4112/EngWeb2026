@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  .w3-card-4
+    header.w3-container.w3-purple
+      h2= ator.nome
+
+    .w3-container.w3-padding
+      p
+        b ID:
+        |  #{ator.id}
+      p
+        b Nº de filmes:
+        |  #{ator.filmes ? ator.filmes.length : 0}
+
+      h3 Filmografia
+      ul.w3-ul.w3-card-4
+        if ator.filmes && ator.filmes.length
+          each f in ator.filmes
+            li
+              a(href=`/filmes/${f.id}`)= `${f.title} (${f.year})`
+        else
+          li Sem filmes
+
+      a.w3-button.w3-grey.w3-margin-top(href='/atores') Voltar

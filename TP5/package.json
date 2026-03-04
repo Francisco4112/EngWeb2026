@@ -1,0 +1,17 @@
+{
+  "name": "tp5-cinema",
+  "version": "1.0.0",
+  "description": "TP5 - Cinema (Express + json-server)",
+  "main": "servidor.js",
+  "scripts": {
+    "build-db": "python3 parser.py",
+    "db": "json-server --watch db.json",
+    "start": "node servidor.js"
+  },
+  "dependencies": {
+    "axios": "^1.13.6",
+    "express": "^5.1.0",
+    "json-server": "^1.0.0-beta.3",
+    "pug": "^3.0.3"
+  }
+}

@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  .w3-panel.w3-red
+    h2= title
+    p= error && error.message ? error.message : 'Erro interno'
+  a.w3-button.w3-grey(href='/filmes') Voltar a filmes

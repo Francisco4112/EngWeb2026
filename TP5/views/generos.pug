@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  .w3-card-4
+    header.w3-container.w3-green
+      h2 Lista de Géneros
+
+    .w3-container
+      table.w3-table-all.w3-margin-top
+        tr
+          th ID
+          th Género
+          th Nº Filmes
+        each g in lista
+          tr(style='cursor:pointer' onclick=`window.location='/generos/${g.id}'`)
+            td= g.id
+            td= g.nome
+            td= g.filmes ? g.filmes.length : 0
