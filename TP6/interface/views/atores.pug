@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h2 Lista de Atores (#{atores.length})
+  table.w3-table-all
+    tr.w3-teal
+      th Id
+      th Nome
+      th Numero de filmes
+    each a in atores
+      tr
+        td
+          a(href=`/atores/${a.id}`)= a.id
+        td
+          a(href=`/atores/${a.id}`)= a.nome
+        td= a.nFilmes

@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  h2= ator.nome
+  .w3-card.w3-padding
+    p
+      b Id:
+      |  #{ator.id}
+    p
+      b Nome:
+      |  #{ator.nome}
+    p
+      b Filmes:
+    if ator.filmes && ator.filmes.length
+      ul.w3-ul
+        each f in ator.filmes
+          li
+            if f.id
+              a(href=`/filmes/${f.id}`)= `${f.title} (${f.year})`
+            else
+              | #{f.title} (#{f.year})
+    else
+      p Sem filmes associados.

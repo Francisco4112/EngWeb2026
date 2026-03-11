@@ -1,0 +1,40 @@
+extends layout
+
+block content
+  h2= `${filme.title} (${filme.year})`
+  .w3-card.w3-padding
+    p
+      b Id:
+      |  #{filme.id}
+    p
+      b Titulo:
+      |  #{filme.title}
+    p
+      b Ano:
+      |  #{filme.year}
+
+    p
+      b Elenco:
+    if filme.cast && filme.cast.length
+      ul.w3-ul
+        each a in filme.cast
+          li
+            if a.id
+              a(href=`/atores/${a.id}`)= `${a.nome} (${a.id})`
+            else
+              | #{a.nome}
+    else
+      p Sem elenco registado.
+
+    p
+      b Generos:
+    if filme.genres && filme.genres.length
+      ul.w3-ul
+        each g in filme.genres
+          li
+            if g.id
+              a(href=`/generos/${g.id}`)= `${g.nome} (${g.id})`
+            else
+              | #{g.nome}
+    else
+      p Sem generos registados.

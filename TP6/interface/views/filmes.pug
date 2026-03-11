@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  h2 Lista de Filmes (#{filmes.length})
+  table.w3-table-all
+    tr.w3-teal
+      th Id
+      th Titulo
+      th Ano
+      th Numero de atores
+      th Numero de generos
+    each f in filmes
+      tr
+        td
+          a(href=`/filmes/${f.id}`)= f.id
+        td
+          a(href=`/filmes/${f.id}`)= f.title
+        td= f.year
+        td= f.nAtores
+        td= f.nGeneros

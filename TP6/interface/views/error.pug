@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h2= message
+  if error && error.response && error.response.status
+    p
+      b Status:
+      |  #{error.response.status}
+  else if error && error.status
+    p
+      b Status:
+      |  #{error.status}
+  if error && error.message
+    p
+      b Erro:
+      |  #{error.message}

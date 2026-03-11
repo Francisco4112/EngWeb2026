@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    title Cinema Americano
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    link(rel='icon' href='/images/favicon.png')
+    link(rel='stylesheet' href='/stylesheets/style.css')
+  body
+    .w3-container
+      h1 Cinema Americano
+      .w3-bar.w3-light-grey.w3-round-large.w3-margin-bottom
+        a.w3-bar-item.w3-button(href='/filmes') Filmes
+        a.w3-bar-item.w3-button(href='/atores') Atores
+        a.w3-bar-item.w3-button(href='/generos') Generos
+    .w3-container
+      block content
+    footer.w3-container.w3-teal.w3-margin-top
+      h5 EngWeb2026, #{date}
