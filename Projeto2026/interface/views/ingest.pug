@@ -4,7 +4,7 @@ block content
   div(class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12")
     div(class="mb-8")
       h1(class="text-3xl font-extrabold text-edu-dark dark:text-white") Submeter Novo Recurso
-      p(class="text-edu-muted dark:text-slate-400") Partilhe o seu conhecimento através de um pacote SIP (BagIt simplificado).
+      p(class="text-edu-muted dark:text-slate-400") Partilhe o seu conhecimento através de um ZIP com o recurso e a descrição.
 
     div(class="bg-white dark:bg-slate-900 rounded-3xl border border-gray-100 dark:border-slate-800 shadow-xl overflow-hidden")
       div(class="p-8")
@@ -54,7 +54,7 @@ block content
                 input(class="w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all dark:text-white" type="text" name="hashtags" placeholder="web, node, javascript")
 
           div(class="space-y-4")
-            label(class="text-sm font-bold text-gray-700 dark:text-slate-300") Pacote SIP (Ficheiro ZIP)
+            label(class="text-sm font-bold text-gray-700 dark:text-slate-300") Ficheiro ZIP
             div#drop-zone(class="border-2 border-dashed border-gray-200 dark:border-slate-700 rounded-3xl p-12 text-center hover:border-primary dark:hover:border-primary hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-all group relative")
               input#zipFile(class="hidden" type="file" name="zipFile" accept=".zip" required)
               label(class="cursor-pointer" for="zipFile")
@@ -62,14 +62,14 @@ block content
                   i(data-lucide="upload-cloud" class="text-primary w-8 h-8")
                 div#file-info
                   p(class="text-sm font-bold text-edu-dark dark:text-white") Seleciona o ficheiro ZIP
-                  p(class="text-xs text-gray-400 dark:text-slate-500 mt-1") O pacote deve conter o ficheiro manifest.txt
+                  p(class="text-xs text-gray-400 dark:text-slate-500 mt-1") O ZIP deve conter pelo menos um ficheiro .pdf e um ficheiro .txt
                 div#file-selected(class="hidden")
                   p(class="text-sm font-bold text-primary" id="file-name")
                   p(class="text-xs text-gray-400 dark:text-slate-500 mt-1") Clique para alterar o ficheiro
 
           button#submit-btn(class="w-full py-4 bg-primary text-white rounded-2xl font-bold hover:bg-primary-dark transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2" type="submit")
             i(data-lucide="send" class="w-5 h-5")
-            span#btn-text Iniciar Processo de Ingestão
+            span#btn-text Submeter Recurso
 
     script.
       const fileInput = document.getElementById('zipFile');
@@ -113,7 +113,7 @@ block content
           } else {
             const errorData = await response.json();
             if (errorData.validacoes) {
-                alert('❌ Erro de Validação no Pacote SIP. Verifique o ficheiro manifest.');
+                alert('❌ ZIP inválido. Inclua pelo menos um ficheiro PDF e um ficheiro TXT.');
             } else {
                 alert('❌ Erro: ' + (errorData.message || 'Falha na submissão'));
             }
@@ -123,6 +123,6 @@ block content
           alert('Erro na ligação ao servidor. Verifique se o ZIP é válido.');
           console.error(error);
           submitBtn.disabled = false;
-          btnText.textContent = 'Iniciar Processo de Ingestão';
+          btnText.textContent = 'Submeter Recurso';
         }
       });

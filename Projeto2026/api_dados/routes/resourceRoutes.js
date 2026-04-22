@@ -117,24 +117,8 @@ router.post('/ingest', auth.verificaAcesso, authz.requireProducer, upload.single
         if (!fs.existsSync(extractPath)) fs.mkdirSync(extractPath, { recursive: true });
         zip.extractAllTo(extractPath, true);
 
-        // Procurar manifesto
-        const manifestEntry = zipEntries.find(e => e.entryName.toLowerCase().includes('manifest'));
-        if (!manifestEntry) {
-            try { fs.rmSync(extractPath, { recursive: true, force: true }); } catch (e) {}
-            try { fs.unlinkSync(zipPath); } catch (e) {}
-            
-            return res.status(400).json({ 
-                error: "Relatório de Erros de Ingestão",
-                timestamp: new Date(),
-                validacoes: [
-                    { componente: "Manifesto", status: "Erro Crítico", erro: "Manifesto não encontrado no pacote SIP" }
-                ]
-            });
-        }
-
-        // Validação BagIt completa
-        const manifestContent = manifestEntry.getData().toString('utf8');
-        const validacao = validateSIP(extractPath, manifestContent);
+        // Validação simplificada: ZIP com pelo menos um PDF e um TXT.
+        const validacao = validateSIP(extractPath);
 
         if (!validacao.valid) {
             // Limpeza em caso de erro
@@ -142,7 +126,7 @@ router.post('/ingest', auth.verificaAcesso, authz.requireProducer, upload.single
             try { fs.unlinkSync(zipPath); } catch (e) {}
             
             return res.status(400).json({ 
-                error: "Relatório de Erros de Ingestão SIP",
+                error: "Relatório de Erros de Ingestão",
                 timestamp: new Date(),
                 resumo: {
                     erros: validacao.errors.length,
@@ -154,7 +138,7 @@ router.post('/ingest', auth.verificaAcesso, authz.requireProducer, upload.single
 
         // Extrair metadados de ficheiros
         const filesMetadata = zipEntries
-            .filter(e => !e.isDirectory && !e.entryName.toLowerCase().includes('manifest'))
+            .filter(e => !e.isDirectory)
             .map(e => ({
                 nome: e.name,
                 size: e.header.size,
