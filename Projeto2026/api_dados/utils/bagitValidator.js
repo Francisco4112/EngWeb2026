@@ -236,75 +236,54 @@ function validateFileIntegrity(bagPath, manifesto) {
 }
 
 /**
- * Validação simples do pacote submetido.
- * Aceita um ZIP comum desde que contenha pelo menos um PDF e um TXT.
- * @param {string} bagPath - Caminho para o diretório extraído
- * @returns {object} { valid: boolean, errors: [], warnings: [] }
+ * Validação completa do pacote SIP
+ * @param {string} bagPath - Caminho para o diretório do bag extraído
+ * @param {AdmZip.IZipEntry} manifestEntry - Entry do manifesto do ZIP
+ * @returns {object} { valid: boolean, errors: [], warnings: [], manifesto: object }
  */
-function validateSimpleZip(bagPath) {
+function validateSIP(bagPath, manifestContent) {
     const validacoes = {
         valid: true,
         errors: [],
-        warnings: []
+        warnings: [],
+        manifesto: null
     };
 
-    if (!fs.existsSync(bagPath)) {
+    // 1. Validar estrutura BagIt
+    const structureValidation = validateBagStructure(bagPath);
+    validacoes.errors = [...validacoes.errors, ...structureValidation.errors];
+    validacoes.warnings = [...validacoes.warnings, ...structureValidation.warnings];
+
+    if (!structureValidation.valid) {
+        validacoes.valid = false;
+        return validacoes;
+    }
+
+    // 2. Parser manifesto
+    if (!manifestContent || manifestContent.trim().length === 0) {
         validacoes.errors.push({
-            componente: 'ZIP',
-            status: 'Erro',
-            erro: 'Não foi possível extrair o ficheiro ZIP.'
+            componente: 'Manifesto',
+            status: 'Vazio',
+            erro: 'Ficheiro de manifesto vazio ou não fornecido'
         });
         validacoes.valid = false;
         return validacoes;
     }
 
-    const files = [];
-    const collectFiles = (dir, prefix = '') => {
-        fs.readdirSync(dir).forEach(entry => {
-            const fullPath = path.join(dir, entry);
-            const relativePath = prefix ? `${prefix}/${entry}` : entry;
+    const manifesto = parseManifest(manifestContent);
+    validacoes.manifesto = manifesto;
 
-            if (fs.statSync(fullPath).isDirectory()) {
-                collectFiles(fullPath, relativePath);
-            } else {
-                files.push(relativePath);
-            }
-        });
-    };
+    // 3. Validar integridade de ficheiros
+    const integrityValidation = validateFileIntegrity(bagPath, manifesto);
+    validacoes.errors = [...validacoes.errors, ...integrityValidation.errors];
+    validacoes.warnings = [...validacoes.warnings, ...integrityValidation.warnings];
 
-    collectFiles(bagPath);
-
-    const pdfFiles = files.filter(file => path.extname(file).toLowerCase() === '.pdf');
-    const txtFiles = files.filter(file => path.extname(file).toLowerCase() === '.txt');
-
-    if (pdfFiles.length === 0) {
-        validacoes.errors.push({
-            componente: 'PDF',
-            status: 'Em Falta',
-            erro: 'O ZIP deve conter pelo menos um ficheiro .pdf.'
-        });
-    }
-
-    if (txtFiles.length === 0) {
-        validacoes.errors.push({
-            componente: 'TXT',
-            status: 'Em Falta',
-            erro: 'O ZIP deve conter pelo menos um ficheiro .txt.'
-        });
-    }
-
-    validacoes.files = files;
-    validacoes.valid = validacoes.errors.length === 0;
+    validacoes.valid = integrityValidation.valid && validacoes.errors.length === 0;
     return validacoes;
-}
-
-function validateSIP(bagPath) {
-    return validateSimpleZip(bagPath);
 }
 
 module.exports = {
     validateSIP,
-    validateSimpleZip,
     validateBagStructure,
     validateFileIntegrity,
     parseManifest,
