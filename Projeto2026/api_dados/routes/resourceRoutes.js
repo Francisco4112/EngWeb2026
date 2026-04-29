@@ -13,7 +13,7 @@ const authz = require('../auth/authorization');
 
 // Configuração do multer com limite de tamanho
 const upload = multer({ 
-    dest: 'uploads/',
+    dest: '/tmp/',
     limits: { 
         fileSize: parseInt(process.env.MAX_FILE_SIZE) || 500 * 1024 * 1024 // 500MB
     }
